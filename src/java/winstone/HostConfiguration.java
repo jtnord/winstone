@@ -16,8 +16,12 @@ import org.eclipse.jetty.server.handler.ContextHandlerCollection;
 import org.eclipse.jetty.server.handler.RequestLogHandler;
 import org.eclipse.jetty.server.session.AbstractSessionManager;
 import org.eclipse.jetty.webapp.WebAppContext;
+import org.eclipse.jetty.websocket.jsr356.server.ServerContainer;
+import org.eclipse.jetty.websocket.jsr356.server.deploy.WebSocketServerContainerInitializer;
+
 import winstone.cmdline.Option;
 
+import javax.servlet.ServletException;
 import javax.servlet.SessionTrackingMode;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -105,6 +109,16 @@ public class HostConfiguration {
         }
 
         server.setHandler(handler);
+        // add websocket support to all contexts.
+        try {
+            for (WebAppContext wac : webapps.values()) { 
+                Logger.log(Logger.DEBUG, Launcher.RESOURCES, "Launcher.WebsocketInit" , wac.getDisplayName());
+                ServerContainer wscontainer = WebSocketServerContainerInitializer.configureContext(wac);
+            }
+        } catch (ServletException ex) {
+            throw new IOException("Failed to initialize websocket support", ex);
+        }
+
         Logger.log(Logger.DEBUG, Launcher.RESOURCES, "HostConfig.InitComplete",
                 this.webapps.size() + "", this.webapps.keySet() + "");
     }
@@ -153,7 +167,7 @@ public class HostConfiguration {
         return handler;
     }
 
-    private WebAppContext create(File app, String prefix) {
+    private WebAppContext create(File app, String prefix)  {
         WebAppContext wac = new WebAppContext(app.getAbsolutePath(),prefix) {
             @Override
             public void preConfigure() throws Exception {
@@ -187,6 +201,7 @@ public class HostConfiguration {
             AbstractSessionManager asm = (AbstractSessionManager) sm;
             asm.setSessionCookie(WinstoneSession.SESSION_COOKIE_NAME);
         }
+
         this.webapps.put(wac.getContextPath(),wac);
         return wac;
     }
