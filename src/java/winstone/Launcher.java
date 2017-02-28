@@ -408,7 +408,9 @@ public class Launcher implements Runnable {
     
     public static void initLogger(Map args) throws IOException {
         // Reset the log level
+        
         int logLevel = Option.intArg(args, Option.DEBUG.name, Logger.INFO.intValue());
+        System.out.println("Log level:" + logLevel);
         boolean showThrowingLineNo = Option.LOG_THROWING_LINE_NO.get(args);
         boolean showThrowingThread = Option.LOG_THROWING_THREAD.get(args);
         OutputStream logStream;

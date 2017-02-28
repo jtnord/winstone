@@ -6,6 +6,7 @@
  */
 package winstone;
 
+import org.eclipse.jetty.annotations.AnnotationConfiguration;
 import org.eclipse.jetty.http.MimeTypes;
 import org.eclipse.jetty.security.LoginService;
 import org.eclipse.jetty.server.Handler;
@@ -112,8 +113,12 @@ public class HostConfiguration {
         // add websocket support to all contexts.
         try {
             for (WebAppContext wac : webapps.values()) { 
+                System.out.println("******************   JAMES WAS HERE **************************");
                 Logger.log(Logger.DEBUG, Launcher.RESOURCES, "Launcher.WebsocketInit" , wac.getDisplayName());
                 ServerContainer wscontainer = WebSocketServerContainerInitializer.configureContext(wac);
+                // yeah this is just plain dumb... we need to scan for all the endpoints to register them
+                // and before Jenkins loads plugins. Woot!
+                // Probably eed to do something in stapler?
             }
         } catch (ServletException ex) {
             throw new IOException("Failed to initialize websocket support", ex);

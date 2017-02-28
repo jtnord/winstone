@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.jenkins-ci</groupId>
   <artifactId>winstone</artifactId>
-  <version>3.2-SNAPSHOT</version>
+  <version>3.2-websocket-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>Winstone</name>
@@ -247,6 +247,11 @@
       <groupId>org.eclipse.jetty.websocket</groupId>
       <artifactId>javax-websocket-server-impl</artifactId>
       <version>${jetty.version}</version>
+    </dependency>
+      <dependency>
+      <groupId>javax.websocket</groupId>
+      <artifactId>javax.websocket-api</artifactId>
+      <version>1.0</version>
     </dependency>
   </dependencies>
 

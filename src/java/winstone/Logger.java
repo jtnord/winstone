@@ -63,6 +63,7 @@ public class Logger {
         synchronized (semaphore) {
             if (!initialised) { // recheck in case we were blocking on another init
                 initialised = false;
+                System.out.println("****  setting logging level to " + level.toString());
                 LOGGER.setLevel(level);
                 namedStreams = new HashMap();
 //                nullStreams = new ArrayList();

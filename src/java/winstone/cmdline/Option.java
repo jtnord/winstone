@@ -9,6 +9,7 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 
 /**
  * Command line options used in {@link Launcher}.
@@ -43,7 +44,7 @@ public class Option<T> {
     public static final OFile COMMON_LIB_FOLDER=file("commonLibFolder");
     public static final OBoolean LOG_THROWING_LINE_NO=bool("logThrowingLineNo",false);
     public static final OBoolean LOG_THROWING_THREAD=bool("logThrowingThread",false);
-    public static final OBoolean DEBUG=bool("debug",false);
+    public static final OInt DEBUG=integer("debug",Level.INFO.intValue());
 
     // these are combined with protocol to form options
     public static final OInt _PORT = integer("Port");
